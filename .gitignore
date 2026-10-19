@@ -1,0 +1,30 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment configurations
+.env
+
+# IDE / Editor folders
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Test caches
+.pytest_cache/
+
+# Wireshark packet captures
+*.pcap
+*.cap
+wireshark/captures/*.pcap
+wireshark/captures/*.cap

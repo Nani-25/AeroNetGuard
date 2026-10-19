@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroNetGuard | Network Analytics &amp; Performance Telemetry</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="header-bar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button id="sidebarToggleBtn" class="sidebar-toggle-btn" aria-label="Toggle navigation menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+            <a href="/" class="brand-wrapper">
+                <svg class="brand-icon" viewBox="0 0 24 24">
+                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                </svg>
+                <div class="brand-titles">
+                    <span class="brand-name">AeroNetGuard</span>
+                    <span class="brand-subtitle">Network Performance &amp; Protocol Analytics</span>
+                </div>
+            </a>
+        </div>
+        <div class="header-status">
+            <span class="status-indicator">
+                <span class="status-dot pulse"></span>
+                <span>SYSTEM ONLINE</span>
+            </span>
+            <span class="simulation-mode-badge">Analytics Engine</span>
+        </div>
+    </header>
+
+    <!-- Global Alert Banner -->
+    <div id="alertBanner" class="alert-banner" role="alert" style="display: none;"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/topology">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
+                        <span>Network Topology</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/simulation">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                        </svg>
+                        <span>Simulation</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/packet-monitor">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                        </svg>
+                        <span>Packet Monitor</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/analytics" class="active">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/traffic-analysis">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z"/>
+                        </svg>
+                        <span>Traffic Analysis</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="telemetry-pill">
+                    <span>Network Status</span>
+                    <span class="val online">● ONLINE</span>
+                </div>
+                <div class="telemetry-pill">
+                    <span>API Status</span>
+                    <span class="val ready">● READY</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                    <h1 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary);">AeroNetGuard Analytics &amp; Network Performance Summary</h1>
+                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">Deterministic network simulation telemetry &amp; protocol efficiency analysis</p>
+                </div>
+                <button id="refreshAnalyticsBtn" class="btn btn-secondary">
+                    <span>↻ Refresh Analytics</span>
+                </button>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="analyticsEmptyState" class="panel-card" style="display: none; padding: 3rem 1.5rem; text-align: center;">
+                <div style="font-size: 1.35rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    No simulation data available
+                </div>
+                <p style="color: var(--text-dim); margin-bottom: 1.5rem; max-width: 480px; margin-left: auto; margin-right: auto;">
+                    Run a simulation to generate analytics. Execute a transmission from the Dashboard or Simulation page to populate protocol performance telemetry.
+                </p>
+                <a href="/simulation" class="btn btn-primary" style="display: inline-flex;">Go to Simulation</a>
+            </div>
+
+            <!-- Active Analytics Section -->
+            <div id="analyticsContentSection">
+                <!-- Row 1: TOP KPI CARDS -->
+                <section class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));" aria-label="Primary KPIs">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Total Frames</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiTotalFrames">0</div>
+                        <div class="stat-subtext">Tokenized discrete frames</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Successful Frames</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--success);"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiSuccessfulFrames" style="color: var(--success);">0</div>
+                        <div class="stat-subtext">Delivered &amp; acknowledged</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Failed Frames</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--danger);"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiFailedFrames" style="color: var(--danger);">0</div>
+                        <div class="stat-subtext">Dropped or unacknowledged</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Retransmissions</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--warning);"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiRetransmissions" style="color: var(--warning);">0</div>
+                        <div class="stat-subtext">GBN window rollbacks</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>CRC Errors</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--danger);"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiCrcErrors" style="color: var(--danger);">0</div>
+                        <div class="stat-subtext" id="kpiCrcErrorRate">Error rate: 0.0%</div>
+                    </div>
+                </section>
+
+                <!-- Row 2: SECOND ROW CARDS -->
+                <section class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 1.5rem;" aria-label="Secondary Metrics">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Transmission Attempts</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiTxAttempts">0</div>
+                        <div class="stat-subtext" id="kpiTxSuccessRate">Success rate: 0.0%</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>ACKs Received</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--accent);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiAckCount">0</div>
+                        <div class="stat-subtext">Cumulative acknowledgements</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Route Cost</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiRouteCost">0</div>
+                        <div class="stat-subtext">Dijkstra shortest path weight</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Hop Count</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiHopCount">0</div>
+                        <div class="stat-subtext">Intermediate node transitions</div>
+                    </div>
+                </section>
+
+                <!-- Row 3: VISUAL ANALYTICS / LIGHTWEIGHT CHARTS -->
+                <section class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-bottom: 1.5rem;">
+                    <!-- Chart 1: Transmission Breakdown -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                                Transmission Success vs. Failure
+                            </h2>
+                            <span id="chartTxRatioLabel" class="badge badge-accent">--</span>
+                        </div>
+                        <div class="panel-body" style="padding: 1.25rem;">
+                            <div style="height: 24px; background: var(--bg-secondary); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; display: flex; margin-bottom: 1rem;">
+                                <div id="chartTxSuccessBar" style="background: var(--success); width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+                                <div id="chartTxFailedBar" style="background: var(--danger); width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-family: var(--font-mono);">
+                                <span style="color: var(--success);">● Successful: <strong id="chartTxSuccessVal">0</strong></span>
+                                <span style="color: var(--danger);">● Failed: <strong id="chartTxFailedVal">0</strong></span>
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem;">
+                                Delivery Efficiency: <strong id="chartDeliveryEff" style="color: var(--accent);">0.0%</strong> (useful frames / attempts)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: CRC Verification Integrity -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                CRC Verification Integrity
+                            </h2>
+                            <span id="chartCrcRatioLabel" class="badge badge-success">--</span>
+                        </div>
+                        <div class="panel-body" style="padding: 1.25rem;">
+                            <div style="height: 24px; background: var(--bg-secondary); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; display: flex; margin-bottom: 1rem;">
+                                <div id="chartCrcValidBar" style="background: var(--success); width: 100%; height: 100%; transition: width 0.4s ease;"></div>
+                                <div id="chartCrcInvalidBar" style="background: var(--danger); width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-family: var(--font-mono);">
+                                <span style="color: var(--success);">● Valid: <strong id="chartCrcValidVal">0</strong></span>
+                                <span style="color: var(--danger);">● Invalid: <strong id="chartCrcInvalidVal">0</strong></span>
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem;">
+                                Total Checked: <strong id="chartCrcTotalVal" style="color: var(--text-primary);">0</strong> | Error Rate: <strong id="chartCrcErrRateVal" style="color: var(--danger);">0.0%</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart 3: Retransmission Overhead -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                                Retransmission Overhead
+                            </h2>
+                            <span id="chartRetransRateBadge" class="badge badge-warning">--</span>
+                        </div>
+                        <div class="panel-body" style="padding: 1.25rem;">
+                            <div style="height: 24px; background: var(--bg-secondary); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; display: flex; margin-bottom: 1rem;">
+                                <div id="chartRetransOriginalBar" style="background: var(--accent); width: 100%; height: 100%; transition: width 0.4s ease;"></div>
+                                <div id="chartRetransBar" style="background: var(--warning); width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-family: var(--font-mono);">
+                                <span style="color: var(--accent);">● Affected Frames: <strong id="chartRetransAffectedVal">0</strong></span>
+                                <span style="color: var(--warning);">● Retransmissions: <strong id="chartRetransTotalVal">0</strong></span>
+                            </div>
+                            <div style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem;">
+                                Avg per affected: <strong id="chartRetransAvgVal" style="color: var(--warning);">0.0</strong> | Rate: <strong id="chartRetransPctVal" style="color: var(--accent);">0.0%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Row 4: PROTOCOL PERFORMANCE -->
+                <section class="panel-card" style="margin-bottom: 1.5rem;">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                            Protocol Stack Performance
+                        </h2>
+                        <span class="badge badge-accent">Stack Telemetry</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="summary-metrics-row">
+                            <div class="summary-metric-box">
+                                <span class="lbl">Framing Engine</span>
+                                <span class="val" id="protoFramingCount" style="font-size: 1.25rem;">0</span>
+                                <span style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem;">Word-based tokenizer</span>
+                            </div>
+                            <div class="summary-metric-box">
+                                <span class="lbl">CRC-8 Error Detection</span>
+                                <span class="val" id="protoCrcValidRate" style="font-size: 1.25rem; color: var(--success);">100%</span>
+                                <span style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem;">Poly: 0x07 (x⁸+x²+x+1)</span>
+                            </div>
+                            <div class="summary-metric-box">
+                                <span class="lbl">Sliding Window</span>
+                                <span class="val" id="protoWindowSize" style="font-size: 1.25rem; color: var(--accent);">N=3</span>
+                                <span style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem;">Pipeline sender buffer</span>
+                            </div>
+                            <div class="summary-metric-box">
+                                <span class="lbl">Go-Back-N ARQ</span>
+                                <span class="val" id="protoGbnRetrans" style="font-size: 1.25rem; color: var(--warning);">0</span>
+                                <span style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem;">Cumulative ACK recovery</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Row 5: FRAME PERFORMANCE TABLE -->
+                <section class="panel-card" style="margin-bottom: 1.5rem;">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                            Frame Performance Table
+                        </h2>
+                        <span class="badge badge-muted">Per-Frame Telemetry</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Seq</th>
+                                    <th>Payload</th>
+                                    <th>CRC-8</th>
+                                    <th>Status</th>
+                                    <th>Attempts</th>
+                                    <th>Retransmissions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analyticsFramesBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Row 6: SIMULATION EVENT TIMELINE -->
+                <section class="panel-card" style="margin-bottom: 1.5rem;">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+                            Simulation Event Timeline
+                        </h2>
+                        <span class="badge badge-muted">Chronological Simulation Order</span>
+                    </div>
+                    <div id="analyticsTimelineContainer" class="terminal-body" style="height: 260px; overflow-y: auto;"></div>
+                </section>
+
+                <!-- Row 7: ROUTE ANALYSIS -->
+                <section class="panel-card">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                            Route Analysis
+                        </h2>
+                        <span id="routeDeliveryBadge" class="badge badge-success">DELIVERED</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-grid" style="margin-bottom: 1rem;">
+                            <div>
+                                <span class="form-label">Source Node:</span>
+                                <div id="routeSourceVal" style="font-weight: 700; color: var(--text-primary); font-size: 1.1rem; margin-top: 0.2rem;">--</div>
+                            </div>
+                            <div>
+                                <span class="form-label">Destination Node:</span>
+                                <div id="routeDestVal" style="font-weight: 700; color: var(--text-primary); font-size: 1.1rem; margin-top: 0.2rem;">--</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <span class="form-label" style="display: block; margin-bottom: 0.4rem;">Dijkstra Shortest Path</span>
+                            <div id="routePathTags" class="route-display-bar"></div>
+                        </div>
+
+                        <div style="display: flex; gap: 2rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                            <div>
+                                <span class="form-label">Total Cost:</span>
+                                <span id="routeCostVal" style="font-weight: 700; color: var(--text-primary); margin-left: 0.35rem; font-size: 1.1rem;">--</span>
+                            </div>
+                            <div>
+                                <span class="form-label">Hop Count:</span>
+                                <span id="routeHopsVal" style="font-weight: 700; color: var(--text-primary); margin-left: 0.35rem; font-size: 1.1rem;">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/analytics.js"></script>
+</body>
+</html>

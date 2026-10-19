@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroNetGuard | Wireshark Traffic Analysis & PCAP Export</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="header-bar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button id="sidebarToggleBtn" class="sidebar-toggle-btn" aria-label="Toggle navigation menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+            <a href="/" class="brand-wrapper">
+                <svg class="brand-icon" viewBox="0 0 24 24">
+                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                </svg>
+                <div class="brand-titles">
+                    <span class="brand-name">AeroNetGuard</span>
+                    <span class="brand-sub">Airport Network Simulation</span>
+                </div>
+            </a>
+        </div>
+        <div class="header-status">
+            <span class="pulse-indicator"></span>
+            <span class="status-label">WIRESHARK TRAFFIC CAPTURE ENGINE</span>
+        </div>
+    </header>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/topology">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
+                        <span>Network Topology</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/simulation">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                        </svg>
+                        <span>Simulation</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/packet-monitor">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                        </svg>
+                        <span>Packet Monitor</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/analytics">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/traffic-analysis" class="active">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z"/>
+                        </svg>
+                        <span>Traffic Analysis</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="telemetry-pill">
+                    <span>Capture Format</span>
+                    <span class="val online">● PCAP 2.4</span>
+                </div>
+                <div class="telemetry-pill">
+                    <span>Protocol Port</span>
+                    <span class="val ready">● UDP 5001</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                    <h1 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary);">AeroNetGuard Traffic Analysis &amp; PCAP Capture</h1>
+                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">
+                        Wireshark-compatible synthetic Ethernet/IPv4/UDP packet capture inspection &amp; binary export
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span id="topCaptureStatus" class="badge badge-info">Checking capture...</span>
+                    <button id="refreshTrafficBtn" class="btn btn-secondary">
+                        <span>↻ Refresh</span>
+                    </button>
+                    <button id="topGeneratePcapBtn" class="btn btn-primary">
+                        <span>⚡ Generate PCAP</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="trafficEmptyState" class="panel-card" style="display: none; padding: 3rem 1.5rem; text-align: center;">
+                <div style="font-size: 1.35rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    No simulation data available
+                </div>
+                <p style="color: var(--text-dim); margin-bottom: 1.5rem; max-width: 480px; margin-left: auto; margin-right: auto;">
+                    Run a simulation to generate Wireshark packet capture records. Execute a transmission from the Dashboard or Simulation page to populate traffic telemetry.
+                </p>
+                <a href="/simulation" class="btn btn-primary" style="display: inline-flex;">Go to Simulation</a>
+            </div>
+
+            <!-- Active Content Container -->
+            <div id="trafficContentSection">
+                <!-- Row 1: CAPTURE SUMMARY KPI CARDS -->
+                <section class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));" aria-label="Capture Summary">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Total Packets</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiTotalPackets">0</div>
+                        <div class="stat-subtext">Total captured records</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Frame Packets</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--accent);"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiFramePackets" style="color: var(--accent);">0</div>
+                        <div class="stat-subtext">Data link transmissions</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>ACK Packets</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--success);"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiAckPackets" style="color: var(--success);">0</div>
+                        <div class="stat-subtext">Reverse acknowledgements</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Retransmissions</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--warning);"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiRetransPackets" style="color: var(--warning);">0</div>
+                        <div class="stat-subtext">GBN window recovery frames</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>CRC Failures</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" style="fill: var(--danger);"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                        </div>
+                        <div class="stat-value" id="kpiCrcFailPackets" style="color: var(--danger);">0</div>
+                        <div class="stat-subtext">Corrupted packet events</div>
+                    </div>
+                </section>
+
+                <!-- Row 2: PCAP EXPORT & CONTROLS + WIRESHARK TIPS -->
+                <section class="dashboard-grid" style="grid-template-columns: 1.2fr 1fr; margin-bottom: 1.5rem;">
+                    <!-- PCAP Export Control Card -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                                PCAP Binary Export Controls
+                            </h2>
+                        </div>
+                        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1.25rem;">
+                            Export actual simulation packets into a standard binary <code>.pcap</code> file ready for Wireshark inspection.
+                        </p>
+
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label for="pcapFilenameInput" class="form-label">PCAP Output Filename</label>
+                            <input type="text" id="pcapFilenameInput" class="form-control" value="aeronetguard_capture.pcap" placeholder="aeronetguard_capture.pcap">
+                            <span style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.25rem; display: block;">
+                                Stored safely in <code>wireshark/captures/</code>. Path traversal is strictly prevented.
+                            </span>
+                        </div>
+
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                            <button id="generatePcapActionBtn" class="btn btn-primary">
+                                <span>⚡ Generate PCAP</span>
+                            </button>
+                            <a id="downloadPcapActionBtn" class="btn btn-secondary" style="display: none;" download>
+                                <span>📥 Download PCAP File</span>
+                            </a>
+                        </div>
+
+                        <div id="pcapExportNotice" style="margin-top: 1rem; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.82rem; display: none; background: #EFF6FF; border: 1px solid #BFDBFE; color: var(--accent); font-weight: 500;">
+                            <span id="pcapNoticeText">PCAP Ready</span>
+                        </div>
+                    </div>
+
+                    <!-- Wireshark Analysis Guidance -->
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h2 class="panel-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                                Wireshark Display Filter Guide
+                            </h2>
+                        </div>
+                        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                            Once opened in Wireshark, filter simulated airport traffic using:
+                        </p>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.82rem;">
+                            <div style="background: var(--bg-surface); padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border);">
+                                <code style="color: var(--accent); font-weight: 600;">contains "AERONETGUARD"</code>
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-top: 0.2rem;">All AeroNetGuard simulated packets</div>
+                            </div>
+                            <div style="background: var(--bg-surface); padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border);">
+                                <code style="color: var(--accent); font-weight: 600;">udp.port == 5001</code>
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-top: 0.2rem;">Dedicated simulation UDP port traffic</div>
+                            </div>
+                            <div style="background: var(--bg-surface); padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border);">
+                                <code style="color: var(--accent); font-weight: 600;">ip.addr == 10.0.0.3</code>
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-top: 0.2rem;">Security department traffic (10.0.0.3)</div>
+                            </div>
+                            <div style="background: var(--bg-surface); padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border);">
+                                <code style="color: var(--accent); font-weight: 600;">ip.addr == 10.0.0.4</code>
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-top: 0.2rem;">Baggage department traffic (10.0.0.4)</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Row 3: CAPTURED TRAFFIC TABLE -->
+                <section class="panel-card" style="margin-bottom: 1.5rem;">
+                    <div class="panel-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/></svg>
+                            Simulated Packet Traffic Ledger
+                        </h2>
+                        <div style="font-size: 0.8rem; color: var(--text-dim);">
+                            <span id="trafficTableCount">0</span> packets recorded
+                        </div>
+                    </div>
+
+                    <div class="table-container" style="max-height: 480px; overflow-y: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Event</th>
+                                    <th>Frame</th>
+                                    <th>Source Node</th>
+                                    <th>Destination Node</th>
+                                    <th>Seq</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>CRC</th>
+                                    <th>Retrans</th>
+                                    <th>Simulated Payload</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trafficTableBody">
+                                <tr>
+                                    <td colspan="11" style="text-align: center; color: var(--text-dim); padding: 2rem;">
+                                        Loading traffic records...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/traffic_analysis.js"></script>
+</body>
+</html>

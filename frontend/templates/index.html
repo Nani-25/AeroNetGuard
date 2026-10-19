@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroNetGuard | Airport Network Operations Center</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+</head>
+<body>
+    <!-- Top Navigation Header -->
+    <header class="header-bar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button id="sidebarToggleBtn" class="sidebar-toggle-btn" aria-label="Toggle navigation menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+            <a href="/" class="brand-wrapper">
+                <svg class="brand-icon" viewBox="0 0 24 24">
+                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                </svg>
+                <div class="brand-titles">
+                    <span class="brand-name">AeroNetGuard</span>
+                    <span class="brand-subtitle">Airport Communication &amp; Monitoring Network Simulator</span>
+                </div>
+            </a>
+        </div>
+        <div class="header-status">
+            <span class="status-indicator">
+                <span class="status-dot pulse"></span>
+                <span>SYSTEM ONLINE</span>
+            </span>
+            <span class="simulation-mode-badge">Local Simulation</span>
+        </div>
+    </header>
+
+    <!-- Global Alert Banner -->
+    <div id="alertBanner" class="alert-banner" role="alert" style="display: none;"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="active">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/topology">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
+                        <span>Network Topology</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/simulation">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                        </svg>
+                        <span>Simulation</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/packet-monitor">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                        </svg>
+                        <span>Packet Monitor</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/analytics">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/traffic-analysis">
+                        <svg class="nav-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z"/>
+                        </svg>
+                        <span>Traffic Analysis</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="telemetry-pill">
+                    <span>Network Status</span>
+                    <span class="val online">● ONLINE</span>
+                </div>
+                <div class="telemetry-pill">
+                    <span>API Status</span>
+                    <span class="val ready">● READY</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- 6 Key Stat Cards -->
+            <section class="stats-grid" aria-label="Network Overview Telemetry">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Network Nodes</span>
+                        <svg class="stat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                    </div>
+                    <div class="stat-value" id="statNodesCount">5</div>
+                    <div class="stat-subtext">Fixed airport topology</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Active Connections</span>
+                        <svg class="stat-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                    </div>
+                    <div class="stat-value" id="statConnCount">5</div>
+                    <div class="stat-subtext">Weighted duplex links</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Packets</span>
+                        <svg class="stat-icon" viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+                    </div>
+                    <div class="stat-value" id="statPacketsCount">0</div>
+                    <div class="stat-subtext">Network layer packets</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Frames</span>
+                        <svg class="stat-icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                    </div>
+                    <div class="stat-value" id="statFramesCount">0</div>
+                    <div class="stat-subtext">Data link frames</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Retransmissions</span>
+                        <svg class="stat-icon" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    </div>
+                    <div class="stat-value" id="statRetransCount">0</div>
+                    <div class="stat-subtext">GBN retransmits</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Delivery Status</span>
+                        <svg class="stat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </div>
+                    <div class="stat-value" id="statDeliveryStatus" style="font-size: 1.1rem; color: var(--accent);">● READY</div>
+                    <div class="stat-subtext">Simulation state</div>
+                </div>
+            </section>
+
+            <!-- 2-Column Dashboard Grid: Simulation Parameters & Topology Preview -->
+            <section class="dashboard-grid">
+                <!-- Left: Simulation Control Form -->
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                            </svg>
+                            Simulation Parameters
+                        </h2>
+                        <span class="badge badge-accent">Dijkstra + GBN ARQ</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="sourceSelect">Source Node</label>
+                                <input type="text" id="sourceSelect" class="form-input" value="Control Tower" readonly aria-readonly="true">
+                                <span class="form-help">Source node is fixed to Control Tower.</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="destSelect">Destination Node</label>
+                                <select id="destSelect" class="form-select" aria-label="Select destination airport node">
+                                    <option value="Security" selected>Security</option>
+                                    <option value="Check-in">Check-in</option>
+                                    <option value="Baggage">Baggage</option>
+                                    <option value="Emergency Services">Emergency Services</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="messageInput">Transmission Message</label>
+                            <textarea id="messageInput" class="form-control" rows="2" placeholder="e.g. SECURITY ALERT GATE A5">SECURITY ALERT GATE A5</textarea>
+                            <span class="form-help">Message will be tokenized into discrete frames by the Framing Engine.</span>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="windowSizeInput">Window Size (N)</label>
+                                <input type="number" id="windowSizeInput" class="form-input" value="3" min="1" max="10">
+                                <span class="form-help">Go-Back-N sender pipeline capacity</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="failureSequenceInput">Failure Sequence</label>
+                                <input type="text" id="failureSequenceInput" class="form-input" placeholder="e.g. 2 or 2, 4">
+                                <span class="form-help">Frame sequence numbers to simulate loss/corruption</span>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" style="align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                            <button id="startSimulationBtn" class="btn btn-primary" style="flex: 2; min-width: 140px;">
+                                <span>⚡ Start Simulation</span>
+                            </button>
+                            <button id="pauseSimulationBtn" class="btn btn-secondary" style="display: none;">
+                                <span>⏸️ Pause</span>
+                            </button>
+                            <button id="resumeSimulationBtn" class="btn btn-secondary" style="display: none;">
+                                <span>▶️ Resume</span>
+                            </button>
+                            <button id="resetSimulationBtn" class="btn btn-secondary" style="flex: 1; min-width: 90px;">
+                                <span>🔄 Reset</span>
+                            </button>
+                            <div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
+                                <label for="speedSelect" class="form-label" style="margin: 0; font-size: 0.75rem;">Speed:</label>
+                                <select id="speedSelect" class="form-select" style="width: auto; padding: 0.4rem 0.5rem; font-size: 0.8rem;">
+                                    <option value="0.5">0.5x</option>
+                                    <option value="1" selected>1.0x</option>
+                                    <option value="2">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Routing Information Section -->
+                        <div id="routingInfoCard" style="margin-top: 1.15rem; padding: 0.9rem 1rem; background: #F8FAFC; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">Routing Telemetry</span>
+                                <span id="routingStatusBadge" class="badge badge-accent">Dijkstra Shortest Path</span>
+                            </div>
+                            <div style="font-size: 0.84rem; display: grid; gap: 0.35rem;">
+                                <div><span style="color: var(--text-muted);">Source:</span> <strong id="routeInfoSource">Control Tower</strong></div>
+                                <div><span style="color: var(--text-muted);">Destination:</span> <strong id="routeInfoDest">Security</strong></div>
+                                <div><span style="color: var(--text-muted);">Dijkstra Path:</span> <strong id="routeInfoPath" style="color: var(--accent); font-family: var(--font-mono);">Control Tower ➔ Security</strong></div>
+                                <div style="display: flex; gap: 1.5rem; margin-top: 0.15rem;">
+                                    <div><span style="color: var(--text-muted);">Total Cost:</span> <strong id="routeInfoCost" style="font-family: var(--font-mono); color: var(--text-primary);">3</strong></div>
+                                    <div><span style="color: var(--text-muted);">Hops:</span> <strong id="routeInfoHops" style="font-family: var(--font-mono); color: var(--text-primary);">1</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: SVG Network Topology Visualization -->
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                            </svg>
+                            Airport Network Topology
+                        </h2>
+                        <span class="badge badge-muted">Click node for telemetry</span>
+                    </div>
+                    <div class="panel-body" style="padding: 0.85rem;">
+                        <!-- Progress Bar & Current Event -->
+                        <div class="progress-wrapper">
+                            <div class="progress-bar-track">
+                                <div id="simulationProgressFill" class="progress-bar-fill"></div>
+                            </div>
+                            <span id="simulationProgressText" class="progress-label">0%</span>
+                        </div>
+                        <div id="currentEventBanner" class="current-event-banner">
+                            <span id="currentEventText">IDLE — Ready to run simulation</span>
+                            <span id="currentEventBadge" class="badge badge-muted">READY</span>
+                        </div>
+
+                        <div class="topology-container" style="width: 100%; height: 360px;">
+                            <svg id="topologySvg" viewBox="0 0 600 400" class="topology-svg" preserveAspectRatio="xMidYMid meet"></svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulation Summary Card (Active after run) -->
+            <section id="simulationSummaryCard" class="panel-card" style="display: none; margin-bottom: 1.5rem;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        Simulation Execution Summary
+                    </h2>
+                    <span id="metricStatusBadge" class="badge badge-success">DELIVERED</span>
+                </div>
+                <div class="panel-body">
+                    <div style="margin-bottom: 1rem;">
+                        <span class="form-label" style="display: block; margin-bottom: 0.4rem;">Dijkstra Shortest Path</span>
+                        <div id="routeDisplayContainer" class="route-display-bar"></div>
+                    </div>
+                    <div class="summary-metrics-row">
+                        <div class="summary-metric-box">
+                            <span class="lbl">Route Cost</span>
+                            <span class="val" id="metricRouteCost">0</span>
+                        </div>
+                        <div class="summary-metric-box">
+                            <span class="lbl">Hop Count</span>
+                            <span class="val" id="metricHopCount">0</span>
+                        </div>
+                        <div class="summary-metric-box">
+                            <span class="lbl">Total Frames</span>
+                            <span class="val" id="metricTotalFrames">0</span>
+                        </div>
+                        <div class="summary-metric-box">
+                            <span class="lbl">Retransmissions</span>
+                            <span class="val" id="metricRetransmissions">0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Frame Monitor Table -->
+            <section class="panel-card" style="margin-bottom: 1.5rem;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+                        </svg>
+                        Frame Transmission Monitor
+                    </h2>
+                    <span class="badge badge-muted">Data Link Layer</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Seq</th>
+                                <th>Payload</th>
+                                <th>CRC-8</th>
+                                <th>CRC Status</th>
+                                <th>Frame Status</th>
+                                <th>Retransmissions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="framesTableBody"></tbody>
+                    </table>
+                    <div id="framesEmptyState" class="empty-state">
+                        No frames generated yet. Execute a simulation to observe frame encapsulation and CRC-8 integrity.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Terminal-style Event Log -->
+            <section class="panel-card">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/>
+                        </svg>
+                        Terminal Event Log
+                    </h2>
+                    <span class="badge badge-muted">Discrete Events Trace</span>
+                </div>
+                <div id="terminalEventLog" class="terminal-body" style="height: 240px; overflow-y: auto;">
+                    <div class="empty-state">Ready for simulation events. Select nodes and click 'Start Simulation'.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Airport Node Information Modal -->
+    <div id="nodeModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalNodeName">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalNodeName" class="modal-title">Node Telemetry</h3>
+                <button id="modalCloseBtn" class="modal-close" aria-label="Close dialog">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-row">
+                    <span class="modal-label">Connected Neighbors:</span>
+                    <span id="modalConnectedNodes" class="modal-value">--</span>
+                </div>
+                <div class="modal-info-row">
+                    <span class="modal-label">Connection Count:</span>
+                    <span id="modalConnectionCount" class="modal-value">--</span>
+                </div>
+                <div class="modal-info-row">
+                    <span class="modal-label">Node Status:</span>
+                    <span class="badge badge-success">ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

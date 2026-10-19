@@ -1,0 +1,457 @@
+/**
+ * AeroNetGuard - Core Layout & Global Theme
+ * Cohesive Light Enterprise Aviation & Network Operations Center (NOC) Theme
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+    /* -------------------------------------------------------------------------
+       Surface & Background Palette (Enterprise Off-White & Pure White)
+       ------------------------------------------------------------------------- */
+    --bg-primary: #F8FAFC;
+    --bg-secondary: #F1F5F9;
+    --surface: #FFFFFF;
+    --surface-secondary: #F8FAFC;
+    --surface-tertiary: #F1F5F9;
+    --surface-hover: #F8FAFC;
+    --panel: #FFFFFF;
+    --panel-header: #FFFFFF;
+    --panel-hover: #F8FAFC;
+
+    /* Hairline Enterprise Borders */
+    --border: #E2E8F0;
+    --border-hover: #CBD5E1;
+    --border-light: #CBD5E1;
+    --border-subtle: #F1F5F9;
+    --border-focus: #2563EB;
+
+    /* -------------------------------------------------------------------------
+       Deep Slate Typography Hierarchy (High Contrast, WCAG AAA)
+       ------------------------------------------------------------------------- */
+    --text-primary: #0F172A;    /* Headings, primary labels, values */
+    --text-secondary: #334155;  /* Body text, table data, active nav */
+    --text-muted: #64748B;      /* Captions, form labels, subtitles */
+    --text-dim: #94A3B8;        /* Micro hints, breadcrumbs, placeholders */
+
+    /* -------------------------------------------------------------------------
+       Aviation Blue Brand & Accent Hierarchy
+       ------------------------------------------------------------------------- */
+    --accent: #2563EB;
+    --accent-hover: #1D4ED8;
+    --accent-light: #EFF6FF;
+    --accent-border: #BFDBFE;
+    --accent-dim: rgba(37, 99, 235, 0.06);
+
+    /* -------------------------------------------------------------------------
+       Semantic Telemetry & Protocol Feedback Colors
+       ------------------------------------------------------------------------- */
+    /* Success: Frame Delivered, ACK Verified, CRC Match */
+    --success: #16A34A;
+    --success-hover: #15803D;
+    --success-light: #F0FDF4;
+    --success-border: #BBF7D0;
+    --success-text: #15803D;
+    --success-dim: rgba(22, 163, 74, 0.06);
+
+    /* Warning: Retransmission, Timeout, In-Transit Recovery */
+    --warning: #D97706;
+    --warning-hover: #B45309;
+    --warning-light: #FFFBEB;
+    --warning-border: #FDE68A;
+    --warning-text: #B45309;
+    --warning-dim: rgba(217, 119, 6, 0.06);
+
+    /* Danger: CRC Mismatch, Dropped Packet, Route Severed */
+    --danger: #DC2626;
+    --danger-hover: #B91C1C;
+    --danger-light: #FEF2F2;
+    --danger-border: #FECACA;
+    --danger-text: #B91C1C;
+    --danger-dim: rgba(220, 38, 38, 0.06);
+
+    /* Info / Protocol Flow */
+    --info: #0284C7;
+    --info-hover: #0369A1;
+    --info-light: #F0F9FF;
+    --info-border: #BAE6FD;
+    --info-text: #0369A1;
+
+    /* -------------------------------------------------------------------------
+       Typography Scale & Font Families
+       ------------------------------------------------------------------------- */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+    /* -------------------------------------------------------------------------
+       Consistent Radius System
+       ------------------------------------------------------------------------- */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* -------------------------------------------------------------------------
+       Enterprise Layered Shadows
+       ------------------------------------------------------------------------- */
+    --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+    --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+    --shadow: var(--shadow-sm);
+
+    /* Transitions */
+    --transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset & Base Rules */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+/* ==========================================================================
+   Header Bar (Enterprise Operations Bar)
+   ========================================================================== */
+.header-bar {
+    height: 60px;
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.brand-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    background-color: var(--accent-light);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.brand-icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent);
+}
+
+.brand-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.brand-sub,
+.brand-subtitle {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+    font-weight: 500;
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background-color: var(--success-light);
+    color: var(--success-text);
+    border: 1px solid var(--success-border);
+    letter-spacing: 0.03em;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: currentColor;
+    display: inline-block;
+}
+
+.status-dot.pulse,
+.pulse-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--success);
+    display: inline-block;
+    box-shadow: 0 0 0 rgba(22, 163, 74, 0.4);
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); }
+    70% { box-shadow: 0 0 0 5px rgba(22, 163, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+
+.status-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+
+.simulation-mode-badge {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.sidebar-toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: var(--radius-sm);
+}
+
+.sidebar-toggle-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--surface-secondary);
+}
+
+/* ==========================================================================
+   Application Layout
+   ========================================================================== */
+.app-layout {
+    display: flex;
+    flex: 1;
+    min-height: calc(100vh - 60px);
+}
+
+.sidebar {
+    width: 240px;
+    background-color: var(--surface);
+    border-right: 1px solid var(--border);
+    box-shadow: 1px 0 2px 0 rgba(15, 23, 42, 0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.nav-list,
+.nav-menu {
+    list-style: none;
+    padding: 1rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+}
+
+.nav-item a:hover {
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+}
+
+.nav-item a.active {
+    background-color: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+    border-left: 3px solid var(--accent);
+}
+
+.nav-icon {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.nav-item a.active .nav-icon {
+    opacity: 1;
+}
+
+.sidebar-footer {
+    padding: 1rem 1rem;
+    border-top: 1px solid var(--border);
+    background-color: var(--surface-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.telemetry-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.telemetry-pill .val {
+    font-weight: 600;
+    font-family: var(--font-mono);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.val.online { color: var(--success); }
+.val.ready { color: var(--accent); }
+.val.warn { color: var(--warning); }
+.val.err { color: var(--danger); }
+
+/* ==========================================================================
+   Main Content Area & Typography Scale
+   ========================================================================== */
+.main-content,
+.container {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    background-color: var(--bg-primary);
+    overflow-y: auto;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+.page-kicker {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.page-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    line-height: 1.25;
+}
+
+.page-desc,
+.page-subtitle {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .main-content,
+    .container {
+        padding: 1.25rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar-toggle-btn {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 60px;
+        left: -240px;
+        bottom: 0;
+        z-index: 99;
+        box-shadow: 4px 0 16px rgba(15, 23, 42, 0.1);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .brand-sub,
+    .brand-subtitle {
+        display: none;
+    }
+}

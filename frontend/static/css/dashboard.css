@@ -1,0 +1,538 @@
+/**
+ * AeroNetGuard - Dashboard Cards, Grids & SVG Topology Styling
+ * Cohesive Light Enterprise Aviation & Network Operations Center (NOC) Theme
+ */
+
+/* ==========================================================================
+   Stat Cards Overview Grid
+   ========================================================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+}
+
+.stat-icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent);
+    opacity: 0.9;
+}
+
+.stat-value {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+}
+
+.stat-subtext {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* ==========================================================================
+   Dashboard Main Layout (2-Column Grid)
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel-card,
+.glass-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.panel-card:hover,
+.glass-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.panel-header,
+.card-header {
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+}
+
+.panel-title,
+.card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    letter-spacing: -0.01em;
+}
+
+.panel-title svg,
+.card-title svg {
+    color: var(--accent);
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+.panel-body {
+    padding: 1.25rem;
+    flex: 1;
+}
+
+/* ==========================================================================
+   SVG Topology Visualization
+   ========================================================================== */
+.topology-container {
+    width: 100%;
+    min-height: 380px;
+    background-color: #F8FAFC;
+    background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+    background-size: 20px 20px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.topology-svg {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+}
+
+/* SVG Line Connections */
+.topology-edge {
+    stroke: #CBD5E1;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+}
+
+.topology-edge.highlighted {
+    stroke: var(--accent);
+    stroke-width: 3.5;
+    stroke-dasharray: 6 4;
+    animation: edgeDash 1.2s linear infinite;
+    filter: drop-shadow(0 0 3px rgba(37, 99, 235, 0.35));
+}
+
+@keyframes edgeDash {
+    to { stroke-dashoffset: -20; }
+}
+
+.topology-edge.edge-active {
+    stroke: var(--accent);
+    stroke-width: 4;
+    filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.4));
+}
+
+.topology-edge.edge-error {
+    stroke: var(--danger);
+    stroke-width: 4;
+    filter: drop-shadow(0 0 4px rgba(220, 38, 38, 0.4));
+}
+
+.topology-edge.edge-complete {
+    stroke: var(--success);
+    stroke-width: 3.5;
+    filter: drop-shadow(0 0 3px rgba(22, 163, 74, 0.35));
+}
+
+.topology-edge-cost {
+    fill: var(--text-primary);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-anchor: middle;
+    cursor: default;
+    user-select: none;
+}
+
+.topology-cost-bg {
+    fill: #FFFFFF;
+    stroke: #CBD5E1;
+    stroke-width: 1;
+    rx: 4;
+    filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.08));
+}
+
+/* SVG Nodes */
+.topology-node-group {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    outline: none;
+}
+
+.topology-node-group:hover .node-circle {
+    stroke: var(--accent);
+    stroke-width: 3;
+    fill: #F0F7FF;
+}
+
+.node-circle {
+    fill: #FFFFFF;
+    stroke: #94A3B8;
+    stroke-width: 2.5;
+    transition: var(--transition);
+    filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.08));
+}
+
+.node-circle.active {
+    stroke: var(--accent);
+    stroke-width: 3.5;
+    fill: var(--accent-light);
+    filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.3));
+}
+
+.node-icon-symbol {
+    fill: var(--accent);
+    pointer-events: none;
+}
+
+.node-label {
+    fill: var(--text-primary);
+    font-size: 12px;
+    font-weight: 600;
+    text-anchor: middle;
+    pointer-events: none;
+    letter-spacing: -0.01em;
+}
+
+.node-status-dot {
+    fill: var(--success);
+}
+
+/* Route Display Pill */
+.route-display-bar {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.route-path-container {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+}
+
+.route-node-tag {
+    background: #FFFFFF;
+    border: 1px solid var(--border-light);
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-xs);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.8rem;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.route-arrow {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+.route-metrics-pill {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.route-metrics-pill span {
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--accent-border);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Live Animation Dynamic States (Nodes, Packets, Progress)
+   ========================================================================== */
+.topology-node-group.node-source .node-circle {
+    stroke: var(--accent);
+    stroke-width: 3.5;
+    fill: var(--accent-light);
+}
+
+.topology-node-group.node-destination .node-circle {
+    stroke: var(--success);
+    stroke-width: 3.5;
+    fill: var(--success-light);
+}
+
+.node-role-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+
+.node-role-tag.source {
+    fill: var(--accent);
+}
+
+.node-role-tag.destination {
+    fill: var(--success);
+}
+
+.topology-node-group.node-transmitting .node-circle {
+    stroke: var(--accent);
+    stroke-width: 4;
+    fill: var(--accent-light);
+    animation: nodePulse 1s infinite alternate;
+}
+
+.topology-node-group.node-receiving .node-circle {
+    stroke: var(--warning);
+    stroke-width: 3.5;
+    fill: var(--warning-light);
+}
+
+.topology-node-group.node-error .node-circle {
+    stroke: var(--danger);
+    stroke-width: 4;
+    fill: var(--danger-light);
+    animation: nodeShake 0.4s ease;
+}
+
+.topology-node-group.node-success .node-circle {
+    stroke: var(--success);
+    stroke-width: 4;
+    fill: var(--success-light);
+    filter: drop-shadow(0 0 6px rgba(22, 163, 74, 0.4));
+}
+
+@keyframes nodePulse {
+    0% { filter: drop-shadow(0 0 2px rgba(37, 99, 235, 0.2)); }
+    100% { filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.5)); }
+}
+
+@keyframes nodeShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* Flying Frame & ACK Packet Elements */
+.flying-frame-bg {
+    fill: var(--accent);
+    stroke: #1D4ED8;
+    stroke-width: 1.5;
+    rx: 4;
+    filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.35));
+}
+
+.flying-frame-text {
+    fill: #FFFFFF;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.flying-frame.retrans .flying-frame-bg {
+    fill: var(--warning);
+    stroke: #B45309;
+    filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.35));
+}
+
+.flying-frame.failed .flying-frame-bg {
+    fill: var(--danger);
+    stroke: #B91C1C;
+    filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.35));
+}
+
+.flying-ack-bg {
+    fill: var(--success);
+    stroke: #15803D;
+    stroke-width: 1.5;
+    rx: 4;
+    filter: drop-shadow(0 2px 4px rgba(22, 163, 74, 0.35));
+}
+
+.flying-ack-text {
+    fill: #FFFFFF;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.flying-trail {
+    stroke: var(--accent);
+    stroke-dasharray: 4 4;
+    stroke-width: 2;
+    opacity: 0.45;
+}
+
+/* Progress Bar & Current Event Banner */
+.progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+    width: 100%;
+}
+
+.progress-bar-track {
+    flex: 1;
+    height: 6px;
+    background: #F1F5F9;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: var(--radius-full);
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 36px;
+    text-align: right;
+}
+
+.current-event-banner {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.85rem;
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.current-event-banner.error {
+    border-left-color: var(--danger);
+    background: var(--danger-light);
+    color: #991B1B;
+    border-color: #FECACA;
+}
+
+.current-event-banner.success {
+    border-left-color: var(--success);
+    background: var(--success-light);
+    color: #166534;
+    border-color: #BBF7D0;
+}
+
+.current-event-banner.retrans {
+    border-left-color: var(--warning);
+    background: var(--warning-light);
+    color: #92400E;
+    border-color: #FDE68A;
+}
+
+/* Frame Table Synchronization Highlights */
+.data-table tr.row-transmitting {
+    background: var(--accent-light) !important;
+}
+
+.data-table tr.frame-retransmission {
+    background: var(--warning-light) !important;
+}
+
+.data-table tr.row-failed {
+    background: var(--danger-light) !important;
+}
+
+.data-table tr.row-acknowledged {
+    background: var(--success-light) !important;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

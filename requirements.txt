@@ -1,0 +1,6 @@
+Flask
+flask-cors
+networkx
+pytest
+scapy
+gunicorn
